@@ -1,6 +1,10 @@
 using Core.Interfaces;
+using eCommerceAPI.Errors;
+using eCommerceAPI.Extensions;
 using eCommerceAPI.Helpers;
+using eCommerceAPI.Middleware;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -10,11 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddControllers();
 builder.Services.AddDbContext<StoreContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddApplicationServices();
+builder.Services.AddSwaggerDocumentation();
 
 
 var app = builder.Build();
@@ -28,26 +31,25 @@ try
     var context = services.GetRequiredService<StoreContext>();
     await context.Database.MigrateAsync();
     await StoreContextSeed.SeedAsync(context, loggerFactory);
-
-    //var userManager = services.GetRequiredService<UserManager<AppUser>>();
-    //var identityContext = services.GetRequiredService<AppIdentityDbContext>();
-    //await identityContext.Database.MigrateAsync();
-    //await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
 }
 catch (Exception ex)
 {
     var logger = loggerFactory.CreateLogger<Program>();
     logger.LogError(ex, "An error occurred during migration");
 }
-
 //*********************************************************************
+
+app.UseMiddleware<ExceptionMiddleware>(); //custom middleware for error handling
+app.UseSwaggerDocumentation();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
 }
+
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseHttpsRedirection();
 
