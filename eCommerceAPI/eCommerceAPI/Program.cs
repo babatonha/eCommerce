@@ -1,10 +1,7 @@
-using Core.Interfaces;
-using eCommerceAPI.Errors;
 using eCommerceAPI.Extensions;
 using eCommerceAPI.Helpers;
 using eCommerceAPI.Middleware;
 using Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -18,6 +15,14 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddSwaggerDocumentation();
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+    });
+});
 
 
 var app = builder.Build();
@@ -54,6 +59,7 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
