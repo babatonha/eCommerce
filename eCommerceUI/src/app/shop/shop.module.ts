@@ -5,7 +5,8 @@ import { ProductItemComponent } from './product-item/product-item.component';
 import { PagerComponent } from '../shared/pager/pager.component';
 import { SharedModule } from '../shared/shared.module';
 import { PagingHeaderComponent } from '../shared/paging-header/paging-header.component';
-
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ShopRoutingModule } from './shop-routing.module';
 
 
 @NgModule({
@@ -13,15 +14,16 @@ import { PagingHeaderComponent } from '../shared/paging-header/paging-header.com
     ShopComponent,
     ProductItemComponent,
     PagerComponent,
-    PagingHeaderComponent
+    PagingHeaderComponent,
+    ProductDetailsComponent
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    ShopRoutingModule
   ],
   exports:[
     ShopComponent,
-    // ProductItemComponent,
      PagerComponent
   ]
 })
