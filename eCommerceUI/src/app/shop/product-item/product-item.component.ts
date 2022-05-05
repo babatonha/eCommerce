@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BasketService } from 'src/app/basket/basket.service';
 import { IProduct } from 'src/app/shared/models/product';
 
 @Component({
@@ -9,12 +10,15 @@ import { IProduct } from 'src/app/shared/models/product';
 })
 export class ProductItemComponent implements OnInit {
   @Input() product!: IProduct;
-  constructor(private router: Router  ) { }
+  constructor(private router: Router, private basketService: BasketService)  { }
 
   ngOnInit() {
   }
 
-
+  addItemToBasket() {
+    this.basketService.addItemToBasket(this.product);
+  }
+  
   navigateToDetail(){
     let url = "/shop/"+ this.product.id;
     this.router.navigate([url]);

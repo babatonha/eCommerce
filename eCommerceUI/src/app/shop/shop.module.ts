@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShopComponent } from './shop.component';
 import { ProductItemComponent } from './product-item/product-item.component';
-import { PagerComponent } from '../shared/pager/pager.component';
+import { PagerComponent } from '../shared/components/pager/pager.component';
 import { SharedModule } from '../shared/shared.module';
-import { PagingHeaderComponent } from '../shared/paging-header/paging-header.component';
+import { PagingHeaderComponent } from '../shared/components/paging-header/paging-header.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ShopRoutingModule } from './shop-routing.module';
 
