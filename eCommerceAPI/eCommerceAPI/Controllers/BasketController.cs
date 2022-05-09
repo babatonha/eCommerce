@@ -15,7 +15,7 @@ namespace eCommerceAPI.Controllers
         private readonly IMapper _mapper;
         public BasketController(IBasketRepository basketRepository, IMapper mapper)
         {
-            mapper = mapper;
+            _mapper = mapper;
             _basketRepository = basketRepository;
         }
 
