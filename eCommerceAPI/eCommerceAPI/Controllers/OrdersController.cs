@@ -5,13 +5,11 @@ using eCommerceAPI.Dtos;
 using eCommerceAPI.Errors;
 using eCommerceAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace eCommerceAPI.Controllers
 {
-   [Authorize]
+    [Authorize]
     public class OrdersController : BaseApiController
     {
         private readonly IOrderService _orderService;
